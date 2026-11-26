@@ -1,7 +1,6 @@
 {
   "name": "Guitar Position Trainer",
   "short_name": "Guitar Trainer",
-  "description": "Memorise guitar notes from open string to fourth fret.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

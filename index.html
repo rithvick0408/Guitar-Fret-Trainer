@@ -1,35 +1,116 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#101827"><meta name="description" content="Memorise guitar notes from open string to fourth fret."><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><title>Guitar Position Trainer</title>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">
+<title>Guitar Position Trainer</title>
 <style>
-:root{color-scheme:dark;--bg:#101827;--surface:#192438;--surface2:#22324d;--line:#354763;--text:#f4f7ff;--muted:#aab8ce;--accent:#83dfcc;--green:#164d3c;--greenLine:#5ee0a0;--red:#542b38;--redLine:#ff8294}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{width:min(820px,100%);margin:auto;padding:18px 12px 34px}header{display:flex;align-items:center;gap:11px;margin:4px 0 18px}.logo{width:42px;height:42px;border-radius:13px;background:var(--accent);color:#10231f;display:grid;place-items:center;font-size:24px;font-weight:900}h1{font-size:21px;line-height:1.2;margin:0}.tagline{color:var(--muted);font-size:13px;margin-top:4px}.tabs{display:flex;gap:8px;margin-bottom:13px}button{font:inherit;font-weight:650;border:1px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--text);padding:11px 14px;cursor:pointer}.tab{flex:1}.tab.active,button.primary{background:var(--accent);color:#10231f;border-color:var(--accent)}.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:15px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:var(--surface2);border-radius:12px;text-align:center;padding:9px}.stat b{display:block;font-size:22px}.stat span{font-size:10px;letter-spacing:.08em;color:var(--muted)}.question{text-align:center;padding:17px 5px 5px}.eyebrow{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.14em}.note{font-size:68px;font-weight:850;line-height:1.15;color:var(--accent);margin:3px}.prompt{color:var(--muted);font-size:13px;margin:0 0 14px;text-align:center}.board-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:6px 2px 10px}.board-heading strong{font-size:14px}.board-heading span{font-size:11px;color:var(--muted)}.fretboard{background:linear-gradient(180deg,#654832,#4c3528);border:1px solid #96704f;border-radius:12px;padding:9px 7px;overflow:hidden}.board-grid{display:grid;grid-template-columns:38px repeat(5,minmax(0,1fr));gap:3px;align-items:stretch}.corner,.fret-head{font-size:10px;color:#f4e4d3;text-align:center;padding:5px 0 7px;font-weight:700}.string-label{display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff2e4;font-size:12px;font-weight:800}.string-label small{font-size:9px;color:#ead0b9;font-weight:500}.position{position:relative;min-width:0;min-height:55px;padding:5px 1px 4px;border:1px solid #a47d5b;border-radius:5px;background:#805c40;color:#fff;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;overflow:hidden}.position:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#d7c5ad;opacity:.75;pointer-events:none}.position .note-name,.position .position-id,.position input{position:relative;z-index:1}.position .note-name{font-size:16px;font-weight:850;line-height:1.1;text-shadow:0 1px 2px #342014}.position .position-id{font-size:9px;color:#f3dfcb;line-height:1}.position input{appearance:none;width:16px;height:16px;margin:0 0 2px;border:1.5px solid #fff;border-radius:4px;background:#f7f0e8;cursor:pointer;flex:0 0 auto}.position input:checked{background:var(--accent);border-color:#10231f}.position input:checked:after{content:"✓";display:block;color:#10231f;font-size:13px;font-weight:900;line-height:14px;text-align:center}.position.open{border-left:4px solid #e6d1b8}.position.correct{background:var(--green);border-color:var(--greenLine)}.position.missed,.position.wrong{background:var(--red);border:2px solid var(--redLine)}.position:disabled{opacity:1;cursor:default}
-.quiz-position{min-height:58px;justify-content:center}
-.quiz-position:before{opacity:.55}
-.quiz-blank{display:block;position:relative;z-index:1;width:100%;height:22px}
-.quiz-position input{width:21px;height:21px;margin:0;z-index:2}
-.quiz-position input:checked:after{font-size:17px;line-height:19px}
-.quiz-position.correct .quiz-blank:after{content:"✓";color:#b9ffe0;font-size:20px;font-weight:900}
-.quiz-position.missed .quiz-blank:after{content:"✕";color:#ffd0d7;font-size:20px;font-weight:900}
-.quiz-position.wrong .quiz-blank:after{content:"✕";color:#ffd0d7;font-size:20px;font-weight:900}
-.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:15px}.actions button{flex:1;min-width:100px;padding:10px 8px}.feedback{text-align:center;min-height:25px;margin:13px 0 0;font-weight:700;font-size:14px}.success{color:var(--greenLine)}.error{color:var(--redLine)}.legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:11px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px;vertical-align:middle}.info{padding:11px;border-radius:12px;background:var(--surface2);color:var(--muted);font-size:12px;margin-top:13px}.hidden{display:none!important}footer{text-align:center;color:var(--muted);font-size:11px;padding:12px 8px}@media(max-width:390px){.app{padding:14px 8px 28px}.card{padding:11px}.board-grid{grid-template-columns:32px repeat(5,minmax(0,1fr));gap:2px}.position{min-height:51px;padding:4px 0}.position .note-name{font-size:14px}.position .position-id{font-size:8px}.position input{width:15px;height:15px}.string-label{font-size:11px}}
-</style></head><body><div class="app">
-<header><div class="logo">♪</div><div><h1>Guitar Position Trainer</h1><div class="tagline">Learn every note from your playing perspective</div></div></header>
-<nav class="tabs"><button class="tab active" id="quizTab" type="button">Practice</button><button class="tab" id="mapTab" type="button">Fretboard map</button></nav>
-<section id="quizPanel" class="card"><div class="stats"><div class="stat"><b id="attempts">0</b><span>ATTEMPTS</span></div><div class="stat"><b id="score">0</b><span>CORRECT</span></div><div class="stat"><b id="accuracy">—</b><span>ACCURACY</span></div></div>
-<div class="question"><div class="eyebrow">Find every position for this note</div><div class="note" id="target">A</div></div><p class="prompt">Tick the positions where this note occurs. Note names are hidden until you check your answer.</p><div class="board-heading"><strong>Guitar · eye view</strong><span>Thin string ↑ · Thick string ↓</span></div><div class="fretboard"><div class="board-grid" id="quizBoard"></div></div>
-<div class="legend"><span><i class="dot" style="background:#805c40"></i>Unselected</span><span><i class="dot" style="background:#164d3c;border:1px solid #5ee0a0"></i>Correct</span><span><i class="dot" style="background:#542b38;border:1px solid #ff8294"></i>Missed / wrong</span></div>
-<div class="actions"><button class="primary" id="check" type="button">Check answer</button><button id="next" type="button">Next note</button><button id="reset" type="button">Reset score</button></div><div class="feedback" id="feedback" aria-live="polite"></div>
-<div class="info"><b>Practice mode:</b> The fretboard cells are intentionally blank. Only the string numbers and fret positions are shown; the note names are not revealed until after you submit. <br><br><b>How to read it:</b> The top row is the 1st (thinnest) string and the bottom row is the 6th (thickest) string. Columns run from open string to frets 1–4. The separate Fretboard map tab is the answer reference.</div></section>
-<section id="mapPanel" class="card hidden"><h2 style="font-size:18px;margin:0 0 5px">All 30 notes · guitar eye view</h2><p class="prompt" style="text-align:left">Standard tuning: 1st to 6th string = E – B – G – D – A – E. Open string through 4th fret.</p><div class="board-heading"><strong>Looking down the neck</strong><span>Nut / open → higher frets</span></div><div class="fretboard"><div class="board-grid" id="mapBoard"></div></div><div class="info"><b>String numbering:</b> 1 is the thinnest/high E string at the top. 6 is the thickest/low E string at the bottom. The open-string column is fret 0.</div></section>
-<footer>Standard tuning · 6 strings · 5 positions each · 30 total positions · Offline-ready</footer></div>
+:root{color-scheme:dark;--bg:#101827;--panel:#172234;--brown:#68472f;--brown2:#79583f;--edge:#b58b68;--text:#fff4e9;--muted:#d3c2b4;--accent:#83dfcc;--good:#6be0a2;--bad:#ff8797}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f7ff;font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{width:min(960px,100%);margin:auto;padding:22px 16px 36px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 18px}
+h1{font-size:clamp(22px,4vw,30px);margin:0}.sub{color:#aab8ce;font-size:13px;margin-top:3px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}.tab,button{font:inherit;font-weight:700;border:1px solid #3b4b66;border-radius:11px;padding:10px 15px;background:#22324d;color:#f4f7ff;cursor:pointer}.tab{flex:1}.tab.active,button.primary{background:var(--accent);color:#10231f;border-color:var(--accent)}
+.card{background:var(--panel);border:1px solid #34435c;border-radius:18px;padding:18px;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#22324d;border-radius:11px;padding:9px;text-align:center}.stat b{display:block;font-size:22px}.stat span{font-size:11px;color:#b6c3d7;letter-spacing:.08em}
+.question{text-align:center;padding:14px 4px 8px}.eyebrow{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:#aebbd0}.target{font-size:clamp(62px,12vw,88px);line-height:1.15;font-weight:850;color:var(--accent)}
+.instruction{text-align:center;color:#aebbd0;margin:0 0 15px}
+.board-shell{background:var(--brown);border:5px solid var(--edge);border-radius:34px;padding:20px 15px 22px;overflow:hidden}
+.board-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:var(--text);font-size:clamp(15px,3vw,22px);font-weight:750;margin:0 4px 18px}
+.board-heading span+span{font-weight:500;color:#e0cdbd}
+.board{display:grid;grid-template-columns:70px repeat(5,minmax(0,1fr));gap:10px 9px;align-items:center}
+.colhead{font-size:clamp(11px,2vw,17px);font-weight:800;text-align:center;white-space:nowrap;color:#fff2e7;padding:4px 0 9px}
+.colhead.open-head{padding-right:9px}
+.colhead.fret-one{border-left:7px solid #d4ad8d;padding-left:8px}
+.string-label{text-align:center;font-size:clamp(18px,3.5vw,26px);font-weight:800;color:#fff2e7}
+.cell{height:clamp(76px,13vw,112px);border:4px solid #a98261;border-radius:23px;background:#79583f;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;min-width:0}
+.cell:before{content:"";position:absolute;left:0;right:0;top:50%;height:4px;background:#b18b6d;transform:translateY(-50%);pointer-events:none}
+.cell.open-cell{border:0;background:transparent;border-radius:0}
+.cell.open-cell:before{left:5px;right:5px;background:#c09a78;height:3px}
+.cell.fret-one-cell{border-left:7px solid #d4ad8d;margin-left:0}
+.marker{width:clamp(43px,7vw,66px);height:clamp(43px,7vw,66px);border-radius:17px;background:#fff8f0;border:2px solid #fff;box-shadow:0 3px 5px #29190f77;position:relative;z-index:1;transition:.12s}
+.open-cell .marker{width:clamp(37px,6vw,54px);height:clamp(37px,6vw,54px);border-radius:50%;border:3px solid #f7e8d8;background:#fff8f0}
+.cell.selected .marker{background:var(--accent);border-color:#d8fff6;box-shadow:0 0 0 5px #83dfcc55,0 3px 5px #29190f77}
+.cell.correct .marker{background:var(--good);border-color:#d7ffea}
+.cell.wrong .marker{background:var(--bad);border-color:#ffe1e6}
+.cell:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:17px}.actions button{flex:1;min-width:120px}
+.feedback{text-align:center;min-height:28px;margin-top:12px;font-weight:750}.success{color:var(--good)}.error{color:var(--bad)}
+.note-map{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.map-item{background:#22324d;border-radius:9px;padding:9px 3px;text-align:center;font-weight:700}.map-item small{display:block;color:#aebbd0;font-size:10px}
+.hidden{display:none!important}.hint{font-size:13px;color:#b7c4d8;text-align:center}
+@media(max-width:520px){.app{padding:14px 9px 28px}.card{padding:11px}.board-shell{padding:15px 7px 17px;border-width:4px;border-radius:25px}.board{grid-template-columns:36px repeat(5,minmax(0,1fr));gap:8px 4px}.cell{height:68px;border-width:3px;border-radius:17px}.cell.fret-one-cell{border-left-width:6px}.colhead.fret-one{border-left-width:6px;padding-left:4px}.marker{width:40px;height:40px;border-radius:13px}.open-cell .marker{width:34px;height:34px}.board-heading{margin-bottom:13px}.actions button{min-width:95px;padding:9px 8px}}
+</style>
+</head>
+<body><main class="app">
+<header><div><h1>Guitar Position Trainer</h1><div class="sub">Memorise all 30 notes · Open string + frets 1–4</div></div></header>
+<nav class="tabs"><button class="tab active" id="practiceTab">Practice</button><button class="tab" id="mapTab">Note map</button></nav>
+<section class="card" id="practice">
+ <div class="stats"><div class="stat"><b id="attempts">0</b><span>ATTEMPTS</span></div><div class="stat"><b id="score">0</b><span>CORRECT</span></div><div class="stat"><b id="accuracy">—</b><span>ACCURACY</span></div></div>
+ <div class="question"><div class="eyebrow">Find every position for this note</div><div class="target" id="target">A</div></div>
+ <p class="instruction">Select the matching position on the fretboard.</p>
+ <div class="board-shell">
+  <div class="board-heading"><span>Guitar · eye view</span><span>Thin string ↑ · Thick string ↓</span></div>
+  <div class="board" id="board"></div>
+ </div>
+ <div class="actions"><button class="primary" id="check">Check answer</button><button id="next">Next note</button><button id="reset">Reset score</button></div>
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+ <p class="hint">OPEN is shown as a circle. The thick divider separates open strings from the four frets.</p>
+</section>
+<section class="card hidden" id="map">
+ <h2 style="margin:0 0 5px;font-size:20px">Fretboard note reference</h2><p class="hint">Standard tuning · String 1 is the thinnest string.</p>
+ <div id="noteMap"></div>
+</section>
+</main>
 <script>
 "use strict";
-const strings=[{number:6,open:"E",notes:["E","F","F#","G","G#"]},{number:5,open:"A",notes:["A","A#","B","C","C#"]},{number:4,open:"D",notes:["D","D#","E","F","F#"]},{number:3,open:"G",notes:["G","G#","A","A#","B"]},{number:2,open:"B",notes:["B","C","C#","D","D#"]},{number:1,open:"E",notes:["E","F","F#","G","G#"]}];
-const eyeStrings=[...strings].reverse();const positions=strings.flatMap(s=>s.notes.map((note,fret)=>({note,string:s.number,fret,id:`${note}${s.number}`,detail:fret===0?"Open":`${fret}${fret===1?"st":fret===2?"nd":fret===3?"rd":"th"} fret` })));const notes=[...new Set(positions.map(p=>p.note))];let target="",chosen=new Set(),attempts=0,score=0,answered=false,previous="";const $=id=>document.getElementById(id);
-function makeBoard(containerId,interactive){const root=$(containerId);let html='<div class="corner">String</div>'+[0,1,2,3,4].map(f=>`<div class="fret-head">${f===0?"OPEN":"FRET "+f}</div>`).join("");eyeStrings.forEach(s=>{html+=interactive?`<div class="string-label">${s.number}</div>`:`<div class="string-label">${s.number}<small>${s.open}</small></div>`;s.notes.forEach((note,fret)=>{const p=positions.find(x=>x.string===s.number&&x.fret===fret);html+=interactive?`<label class="position quiz-position ${fret===0?"open":""}" data-id="${p.id}"><input type="checkbox" value="${p.id}" aria-label="String ${p.string}, ${fret===0?"open":`fret ${fret}`}"><span class="quiz-blank" aria-hidden="true"></span></label>`:`<div class="position ${fret===0?"open":""}"><span class="note-name">${note}</span><span class="position-id">${p.id}</span></div>`;});});root.innerHTML=html;if(interactive)root.querySelectorAll('input[type="checkbox"]').forEach(input=>input.addEventListener("change",e=>{if(answered){e.preventDefault();return}if(e.target.checked)chosen.add(e.target.value);else chosen.delete(e.target.value)}));}
-function newQuestion(){const pool=notes.filter(n=>n!==previous);target=pool[Math.floor(Math.random()*pool.length)]||notes[0];previous=target;chosen.clear();answered=false;$("target").textContent=target;$("feedback").textContent="";$("feedback").className="feedback";$("check").disabled=false;renderQuizBoard();}
-function renderQuizBoard(){makeBoard("quizBoard",true);$("quizBoard").querySelectorAll('input[type="checkbox"]').forEach(input=>input.checked=chosen.has(input.value));}
-function checkAnswer(){if(answered)return;const expected=new Set(positions.filter(p=>p.note===target).map(p=>p.id));let allCorrect=true;$("quizBoard").querySelectorAll(".position").forEach(cell=>{const id=cell.dataset.id,input=cell.querySelector("input"),isExpected=expected.has(id),isChosen=chosen.has(id);if(isExpected&&isChosen)cell.classList.add("correct");else if(isExpected&&!isChosen){cell.classList.add("missed");allCorrect=false}else if(!isExpected&&isChosen){cell.classList.add("wrong");allCorrect=false}input.disabled=true;});attempts++;if(allCorrect)score++;$("attempts").textContent=attempts;$("score").textContent=score;$("accuracy").textContent=Math.round(score/attempts*100)+"%";const f=$("feedback");f.className="feedback "+(allCorrect?"success":"error");f.textContent=allCorrect?"Perfect! You found every occurrence of "+target+".":"Not quite. Green = correct selection; red = missed correct note or incorrect selection. Correct positions: "+positions.filter(p=>expected.has(p.id)).sort((a,b)=>b.string-a.string).map(p=>`${p.id} (${p.detail.toLowerCase()})`).join(", ")+".";answered=true;$("check").disabled=true;}
-function resetScore(){attempts=0;score=0;$("attempts").textContent="0";$("score").textContent="0";$("accuracy").textContent="—";newQuestion();}function show(view){const quiz=view==="quiz";$("quizPanel").classList.toggle("hidden",!quiz);$("mapPanel").classList.toggle("hidden",quiz);$("quizTab").classList.toggle("active",quiz);$("mapTab").classList.toggle("active",!quiz);}
-$("quizTab").addEventListener("click",()=>show("quiz"));$("mapTab").addEventListener("click",()=>show("map"));$("check").addEventListener("click",checkAnswer);$("next").addEventListener("click",newQuestion);$("reset").addEventListener("click",resetScore);makeBoard("mapBoard",false);newQuestion();if("serviceWorker" in navigator&&location.protocol!=="file:")window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+const strings=[
+ {n:1,open:"E",notes:["E","F","F#","G","G#"]},
+ {n:2,open:"B",notes:["B","C","C#","D","D#"]},
+ {n:3,open:"G",notes:["G","G#","A","A#","B"]},
+ {n:4,open:"D",notes:["D","D#","E","F","F#"]},
+ {n:5,open:"A",notes:["A","A#","B","C","C#"]},
+ {n:6,open:"E",notes:["E","F","F#","G","G#"]}
+];
+const positions=strings.flatMap(s=>s.notes.map((note,fret)=>({note,string:s.n,fret,id:`${note}${s.n}`})));
+const noteNames=[...new Set(positions.map(p=>p.note))];
+let target="",selected=new Set(),attempts=0,score=0,answered=false,previous="";
+const $=id=>document.getElementById(id);
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function makeBoard(){
+ const b=$("board");let out='<div class="colhead">String</div><div class="colhead open-head">OPEN</div><div class="colhead fret-one">FRET 1</div><div class="colhead">FRET 2</div><div class="colhead">FRET 3</div><div class="colhead">FRET 4</div>';
+ strings.forEach(s=>{
+  out+=`<div class="string-label">${s.n}</div>`;
+  s.notes.forEach((note,fret)=>{
+   const cls=fret===0?"cell open-cell":fret===1?"cell fret-one-cell":"cell";
+   out+=`<button type="button" class="${cls}" data-id="${note}${s.n}" aria-label="String ${s.n}, ${fret===0?"open":`fret ${fret}`}"><span class="marker"></span></button>`;
+  });
+ });
+ b.innerHTML=out;
+ b.querySelectorAll(".cell").forEach(el=>el.addEventListener("click",()=>{
+  if(answered)return;const id=el.dataset.id;
+  if(selected.has(id))selected.delete(id);else selected.add(id);
+  el.classList.toggle("selected",selected.has(id));
+ }));
+}
+function newQuestion(){
+ const pool=noteNames.filter(n=>n!==previous);target=pool[Math.floor(Math.random()*pool.length)]||noteNames[0];previous=target;
+ selected.clear();answered=false;$("target").textContent=target;$("feedback").textContent="";$("feedback").className="feedback";$("check").disabled=false;
+ $("board").querySelectorAll(".cell").forEach(el=>el.classList.remove("selected","correct","wrong"));
+}
+function checkAnswer(){
+ if(answered)return;const expected=positions.filter(p=>p.note===target).map(p=>p.id).sort(),actual=[...selected].sort();
+ const ok=expected.length===actual.length&&expected.every((v,i)=>v===actual[i]);
+ attempts++;if(ok)score++;$("attempts").textContent=attempts;$("score").textContent=score;$("accuracy").textContent=Math.round(score/attempts*100)+"%";
+ $("board").querySelectorAll(".cell").forEach(el=>{const id=el.dataset.id;if(expected.includes(id))el.classList.add("correct");else if(selected.has(id))el.classList.add("wrong")});
+ $("feedback").className="feedback "+(ok?"success":"error");$("feedback").textContent=ok?"Correct! You found every position.":"Not quite. Green shows the correct positions; red shows incorrect selections.";
+ answered=true;$("check").disabled=true;
+}
+function reset(){attempts=0;score=0;$("attempts").textContent="0";$("score").textContent="0";$("accuracy").textContent="—";newQuestion()}
+function show(which){const p=which==="practice";$("practice").classList.toggle("hidden",!p);$("map").classList.toggle("hidden",p);$("practiceTab").classList.toggle("active",p);$("mapTab").classList.toggle("active",!p)}
+function renderMap(){
+ $("noteMap").innerHTML=strings.map(s=>`<h3 style="margin:15px 0 7px">String ${s.n} · ${s.open} open</h3><div class="note-map">${s.notes.map((n,f)=>`<div class="map-item">${n}<small>${f===0?"OPEN":"Fret "+f}</small></div>`).join("")}</div>`).join("");
+}
+$("practiceTab").addEventListener("click",()=>show("practice"));$("mapTab").addEventListener("click",()=>show("map"));$("check").addEventListener("click",checkAnswer);$("next").addEventListener("click",newQuestion);$("reset").addEventListener("click",reset);
+makeBoard();renderMap();newQuestion();
+if("serviceWorker" in navigator&&location.protocol!=="file:")addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 </script></body></html>

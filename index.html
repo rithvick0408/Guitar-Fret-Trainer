@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<meta name="description" content="Memorise all guitar notes from open string to fourth fret.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Guitar Position Trainer</title>
+<style>
+:root{color-scheme:dark;--bg:#101827;--surface:#192438;--surface2:#22324d;--line:#354763;--text:#f4f7ff;--muted:#aab8ce;--accent:#83dfcc;--green:#5ee0a0;--red:#ff8294}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{width:min(760px,100%);margin:auto;padding:20px 16px 36px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 20px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:13px;background:var(--accent);color:#10231f;display:grid;place-items:center;font-size:24px;font-weight:900}
+h1{font-size:22px;line-height:1.2;margin:0}.tagline{color:var(--muted);font-size:13px;margin-top:4px}
+.tabs{display:flex;gap:8px;margin:0 0 14px}.tab,button{font:inherit;font-weight:650;border:1px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--text);padding:11px 15px;cursor:pointer}.tab{flex:1}.tab.active,button.primary{background:var(--accent);color:#10231f;border-color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:var(--surface2);border-radius:12px;text-align:center;padding:10px}.stat b{display:block;font-size:23px}.stat span{font-size:11px;letter-spacing:.08em;color:var(--muted)}
+.question{text-align:center;padding:22px 8px 12px}.eyebrow{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.14em}.note{font-size:76px;font-weight:850;line-height:1.2;color:var(--accent);margin:4px}
+.prompt{color:var(--muted);font-size:14px;margin:0 0 15px;text-align:center}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.answer{display:flex;align-items:center;gap:10px;padding:12px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;cursor:pointer;min-height:58px}
+.answer input{width:19px;height:19px;accent-color:var(--accent);flex:0 0 auto}.answer strong{font-size:16px}.answer small{display:block;color:var(--muted);font-size:12px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:17px}.actions button{flex:1;min-width:115px}
+.feedback{text-align:center;min-height:28px;margin:14px 0 0;font-weight:700}.success{color:var(--green)}.error{color:var(--red)}
+.muted{color:var(--muted);font-size:13px}.hidden{display:none!important}
+.table-wrap{overflow-x:auto}.fretboard{width:100%;border-spacing:5px;min-width:480px;text-align:center}.fretboard th{font-size:12px;color:var(--muted);font-weight:600}.fretboard td{background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:10px 3px;font-size:17px;font-weight:750}.fretboard td small{display:block;color:var(--muted);font-size:10px;font-weight:500}
+.info{padding:12px;border-radius:12px;background:var(--surface2);color:var(--muted);font-size:13px;margin-top:14px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:12px 8px}
+@media(max-width:430px){.app{padding:15px 12px 28px}.card{padding:14px}.answers{grid-template-columns:1fr}.note{font-size:68px}.actions button{padding:10px 9px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand"><div class="logo">♪</div><div><h1>Guitar Position Trainer</h1><div class="tagline">Learn where every note lives on the fretboard</div></div></div>
+</header>
+<nav class="tabs">
+ <button class="tab active" id="quizTab" type="button">Practice</button>
+ <button class="tab" id="mapTab" type="button">Fretboard map</button>
+</nav>
+<section id="quizPanel" class="card">
+ <div class="stats">
+  <div class="stat"><b id="attempts">0</b><span>ATTEMPTS</span></div>
+  <div class="stat"><b id="score">0</b><span>CORRECT</span></div>
+  <div class="stat"><b id="accuracy">—</b><span>ACCURACY</span></div>
+ </div>
+ <div class="question"><div class="eyebrow">Find all positions for this note</div><div class="note" id="target">A</div></div>
+ <p class="prompt">Select every matching position on the guitar, then check your answer.</p>
+ <div class="answers" id="answers"></div>
+ <div class="actions">
+  <button class="primary" id="check" type="button">Check answer</button>
+  <button id="next" type="button">Next note</button>
+  <button id="reset" type="button">Reset score</button>
+ </div>
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+ <div class="info">Example: <b>A5 (open)</b> means the open 5th string. <b>A3 (2nd fret)</b> means the 3rd string, 2nd fret. Select all occurrences of the requested note.</div>
+</section>
+<section id="mapPanel" class="card hidden">
+ <h2 style="font-size:19px;margin:0 0 6px">All 30 positions</h2>
+ <p class="muted">Standard tuning: 6th to 1st string = E – A – D – G – B – E. Fret 0 is the open string.</p>
+ <div class="table-wrap"><table class="fretboard" id="fretboard"></table></div>
+ <div class="info"><b>String numbering:</b> 1 is the thinnest/high E string. 6 is the thickest/low E string. The map shows open through 4th fret only.</div>
+</section>
+<footer>Standard tuning · 6 strings · 5 positions per string · Works offline after first load</footer>
+</div>
+<script>
+"use strict";
+const strings=[
+ {number:6,open:"E",notes:["E","F","F#","G","G#"]},
+ {number:5,open:"A",notes:["A","A#","B","C","C#"]},
+ {number:4,open:"D",notes:["D","D#","E","F","F#"]},
+ {number:3,open:"G",notes:["G","G#","A","A#","B"]},
+ {number:2,open:"B",notes:["B","C","C#","D","D#"]},
+ {number:1,open:"E",notes:["E","F","F#","G","G#"]}
+];
+const positions=strings.flatMap(s=>s.notes.map((note,fret)=>({note,string:s.number,fret,id:`${note}${s.number}`,detail:fret===0?"Open":`${fret}${fret===1?"st":fret===2?"nd":fret===3?"rd":"th"} fret`})));
+const notes=[...new Set(positions.map(p=>p.note))];
+let target="",chosen=new Set(),attempts=0,score=0,answered=false,previous="";
+const $=id=>document.getElementById(id);
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
+function newQuestion(){
+ const pool=notes.filter(n=>n!==previous);target=pool[Math.floor(Math.random()*pool.length)]||notes[0];previous=target;
+ chosen.clear();answered=false;$("target").textContent=target;$("feedback").textContent="";$("feedback").className="feedback";$("check").disabled=false;
+ renderAnswers();
+}
+function renderAnswers(){
+ const hits=positions.filter(p=>p.note===target);
+ const distractors=shuffle(positions.filter(p=>p.note!==target)).slice(0,Math.max(0,12-hits.length));
+ const options=shuffle([...hits,...distractors]);
+ $("answers").innerHTML=options.map(p=>`<label class="answer"><input type="checkbox" value="${p.id}" ${chosen.has(p.id)?"checked":""} ${answered?"disabled":""}><span><strong>${p.id}</strong><small>${p.detail} · string ${p.string}</small></span></label>`).join("");
+ $("answers").querySelectorAll("input").forEach(input=>input.addEventListener("change",e=>{if(e.target.checked)chosen.add(e.target.value);else chosen.delete(e.target.value)}));
+}
+function checkAnswer(){
+ if(answered)return;
+ const expected=positions.filter(p=>p.note===target).map(p=>p.id).sort(),actual=[...chosen].sort();
+ const correct=expected.length===actual.length&&expected.every((v,i)=>v===actual[i]);
+ attempts++;if(correct)score++;
+ $("attempts").textContent=attempts;$("score").textContent=score;$("accuracy").textContent=Math.round(score/attempts*100)+"%";
+ const f=$("feedback");f.className="feedback "+(correct?"success":"error");
+ f.textContent=correct?"Correct! You found every position.":"Not quite. Correct answers: "+positions.filter(p=>p.note===target).map(p=>`${p.id} (${p.detail.toLowerCase()})`).join(", ")+".";
+ answered=true;$("check").disabled=true;renderAnswers();
+}
+function resetScore(){attempts=0;score=0;$("attempts").textContent="0";$("score").textContent="0";$("accuracy").textContent="—";newQuestion()}
+function show(view){
+ const quiz=view==="quiz";$("quizPanel").classList.toggle("hidden",!quiz);$("mapPanel").classList.toggle("hidden",quiz);
+ $("quizTab").classList.toggle("active",quiz);$("mapTab").classList.toggle("active",!quiz);
+}
+function renderMap(){
+ let html="<thead><tr><th>String</th>"+[0,1,2,3,4].map(f=>`<th>${f===0?"Open":"Fret "+f}</th>`).join("")+"</tr></thead><tbody>";
+ strings.forEach(s=>{html+=`<tr><th>${s.open}${s.number}<small>String ${s.number}</small></th>`;s.notes.forEach((n,f)=>{html+=`<td>${n}<small>${n}${s.number}</small></td>`});html+="</tr>"});
+ $("fretboard").innerHTML=html+"</tbody>";
+}
+$("quizTab").addEventListener("click",()=>show("quiz"));$("mapTab").addEventListener("click",()=>show("map"));
+$("check").addEventListener("click",checkAnswer);$("next").addEventListener("click",newQuestion);$("reset").addEventListener("click",resetScore);
+renderMap();newQuestion();
+if("serviceWorker" in navigator && location.protocol!=="file:"){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+</script>
+</body>
+</html>
